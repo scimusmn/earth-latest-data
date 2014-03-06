@@ -32,7 +32,9 @@ def download_data(date):
         'dir=%2Fgfs.' + strftime('%Y%m%d') + '00'
 
     # Prefix the filename with an ISO date fragment
-    file_name = strftime(%Y-%m-%d) + '_gfs.t00z.pgrbf00.grib2'
+    iso_date_frag = (datetime.datetime.strptime(date, '%Y%m%d')
+                     .strftime('%Y-%m-%d'))
+    file_name = iso_date_frag + '_gfs.t00z.pgrbf00.grib2'
 
     u = urllib2.urlopen("%s" % (url))
     f = open('data/' + file_name, 'wb')
