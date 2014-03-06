@@ -3,9 +3,9 @@
 """Download and process the latest wind data
 
 Usage:
-  process-data.py [--date=<YYYYMMDD>]
-  process-data.py (-h | --help)
-  process-data.py --version
+  get-latest.py [--date=<YYYYMMDD>]
+  get-latest.py (-h | --help)
+  get-latest.py --version
 
 Options:
   -h --help          Show this screen.
