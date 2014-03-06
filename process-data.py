@@ -60,5 +60,5 @@ def download_data(date):
     f.close()
 
 if __name__ == '__main__':
-    arguments = docopt(__doc__, version='Get Latest Data 0.1')
+    arguments = docopt(__doc__, version='Get Latest Data 0.0.1')
     download_data(arguments['--date'])
