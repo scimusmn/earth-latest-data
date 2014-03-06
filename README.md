@@ -9,5 +9,6 @@ needs](https://github.com/scimusmn/earth)right now, although I hope to abstract
 it more in the future.
 
 # Requirements
-* You've installed grib2json
+* grib2json
 * Python
+* Python > docopt
