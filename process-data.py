@@ -38,29 +38,15 @@ def download_data(date):
                      .strftime('%Y-%m-%d'))
     file_name = iso_date_frag + '_gfs.t00z.pgrbf00.grib2'
 
+    # Open URL, download it, and write it to a file
     u = urllib2.urlopen("%s" % (url))
     f = open('data/' + file_name, 'wb')
-
-    # Unused - NEED?
-    #meta = u.info()
-    # Progress meter - NOT WORKING
-    #file_size = int(meta.getheaders("Content-Length")[0])
-    #print "Downloading: %s Bytes: %s" % (file_name, file_size)
-
-    file_size_dl = 0
     block_sz = 8192
     while True:
         buffer = u.read(block_sz)
         if not buffer:
             break
-
-        file_size_dl += len(buffer)
         f.write(buffer)
-        # Progress meter - NOT WORKING
-        #status = r"%10d  [%3.2f%%]" % (file_size_dl, file_size_dl * 100. / file_size)
-        #status = status + chr(8)*(len(status)+1)
-        #print status,
-
     f.close()
     return f.name
 
