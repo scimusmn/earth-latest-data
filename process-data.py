@@ -4,6 +4,7 @@
 
 Usage:
   get-latest.py [--date=<YYYYMMDD>]
+  get-latest.py [--dest=<filepath>]
   get-latest.py (-h | --help)
   get-latest.py --version
 
@@ -11,19 +12,20 @@ Options:
   -h --help          Show this screen.
   --version          Show version.
   --date=<YYYYMMDD>  Process wind data from a specific date.
+  --dest=<filepath>  Destination filepath for the resulting JSON file
 
 """
 from docopt import docopt
 
 import datetime
+from subprocess import call
+import os
+import errno
 import urllib2
 from time import strftime
 
 
 def download_data(date):
-
-    if date is None:
-        date = datetime.datetime.now().strftime('%Y%m%d')
 
     url = 'http://nomads.ncep.noaa.gov/cgi-bin/filter_gfs.pl' + '?' + \
         'file=gfs.t00z.pgrbf00.grib2&' + \
@@ -60,7 +62,48 @@ def download_data(date):
         #print status,
 
     f.close()
+    return f.name
+
+
+def grib_2_json(grib_file, datestring,
+                dest=None,
+                path='/Applications/grib2json-0.8.0-SNAPSHOT/bin'):
+    # Base dir for the weather data
+    if dest is None:
+        dest = (os.path.expanduser("~") +
+                os.sep + 'src/wind/public/data/weather')
+
+    # Data is read from year, month, and day directories,
+    # so we need to create them.
+    d = datetime.datetime.strptime(datestring, '%Y%m%d')
+    dest = (os.path.normpath(dest) + os.sep +
+            d.strftime('%Y') + os.sep +
+            d.strftime('%m') + os.sep +
+            d.strftime('%d') + os.sep)
+    print dest
+    create_path(dest)
+
+    # Convert files with the grib2json utility
+    cmd = os.path.normpath(path) + os.sep + 'grib2json'
+    cmd = (cmd + ' -d -n -o ' +
+           dest + '0000-wind-surface-level-gfs-1.0.json ' + grib_file)
+    print cmd
+    call(cmd, shell=True)
+
+
+def create_path(path):
+    try:
+        os.makedirs(path)
+    except OSError as exception:
+        if exception.errno != errno.EEXIST:
+            raise
+
 
 if __name__ == '__main__':
     arguments = docopt(__doc__, version='Get Latest Data 0.0.1')
-    download_data(arguments['--date'])
+    if arguments['--date'] is None:
+        date = datetime.datetime.now().strftime('%Y%m%d')
+    else:
+        date = arguments['--date']
+    grib_file = download_data(date)
+    json_file = grib_2_json(grib_file, date, arguments['--dest'])
