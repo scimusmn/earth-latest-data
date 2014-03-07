@@ -16,7 +16,6 @@ Options:
 
 """
 from docopt import docopt
-
 import datetime
 from subprocess import call
 import os
@@ -66,14 +65,12 @@ def grib_2_json(grib_file, datestring,
             d.strftime('%Y') + os.sep +
             d.strftime('%m') + os.sep +
             d.strftime('%d') + os.sep)
-    print dest
     create_path(dest)
 
     # Convert files with the grib2json utility
     cmd = os.path.normpath(path) + os.sep + 'grib2json'
     cmd = (cmd + ' -d -n -o ' +
            dest + '0000-wind-surface-level-gfs-1.0.json ' + grib_file)
-    print cmd
     call(cmd, shell=True)
 
 
