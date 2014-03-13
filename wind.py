@@ -39,14 +39,16 @@ def download_data(date):
 
     """
 
+    iso_date_frag = (datetime.datetime.strptime(date, '%Y%m%d')
+                     .strftime('%Y-%m-%d'))
+
     url = 'http://nomads.ncep.noaa.gov/cgi-bin/filter_gfs.pl' + '?' + \
         'file=gfs.t00z.pgrbf00.grib2&' + \
         'lev_10_m_above_ground=on&' + \
         'var_UGRD=on&var_VGRD=on&' + \
-        'dir=%2Fgfs.' + strftime('%Y%m%d') + '00'
+        'dir=%2Fgfs.' + date + '00'
+    print url
 
-    iso_date_frag = (datetime.datetime.strptime(date, '%Y%m%d')
-                     .strftime('%Y-%m-%d'))
     file_name = iso_date_frag + '_gfs.t00z.pgrbf00.grib2'
     u = urllib2.urlopen("%s" % (url))
     f = open('data/' + file_name, 'wb')
