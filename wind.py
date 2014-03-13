@@ -63,8 +63,14 @@ def download_data(date):
         return f.name
     except urllib2.HTTPError, e:
         print('HTTPError = ' + str(e.code))
+        print
+        print 'Unknown internet connection problem.'
+        print
     except urllib2.URLError, e:
-        print('URLError = ' + str(e.reason))
+        print 'URLError = ' + str(e.reason)
+        print
+        print 'Your internet connection is probably down.'
+        print
 
 
 def grib_2_json(grib_file, datestring,
@@ -139,4 +145,8 @@ if __name__ == '__main__':
     else:
         date = arguments['--date']
     grib_file = download_data(date)
-    json_file = grib_2_json(grib_file, date, arguments['--dest'])
+    if grib_file:
+        json_file = grib_2_json(grib_file, date, arguments['--dest'])
+    else:
+        print 'You won\'t be able to get the latest wind data\
+               until the internet is reconnected'
