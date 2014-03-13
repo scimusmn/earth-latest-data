@@ -87,6 +87,9 @@ def grib_2_json(grib_file, datestring,
         dest = (os.path.expanduser("~") +
                 os.sep + 'src/wind/public/data/weather')
 
+    current = (dest + os.sep + 'current' + os.sep +
+               'current-wind-surface-level-gfs-1.0.json')
+
     # Data is read from year, month, and day directories,
     # so we need to create them.
     d = datetime.datetime.strptime(datestring, '%Y%m%d')
@@ -101,6 +104,10 @@ def grib_2_json(grib_file, datestring,
     dest = dest + '0000-wind-surface-level-gfs-1.0.json'
     cmd = (cmd + ' -d -n -o ' + dest + ' ' + grib_file)
     call(cmd, shell=True)
+
+    # Make a symlink to the new file from the "current" path
+    os.remove(current)
+    os.symlink(dest, current)
 
     return dest
 
