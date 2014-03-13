@@ -149,6 +149,5 @@ if __name__ == '__main__':
         json_file = grib_2_json(grib_file, date, arguments['--dest'])
     else:
         print '''
-You won't be able to get the latest wind data
-until the internet is reconnected
+You won't be able to get the latest wind data until the internet is reconnected
 '''
