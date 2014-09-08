@@ -18,9 +18,9 @@ ogr2ogr -f GeoJSON states_provinces_lines.json ne_110m_admin_1_states_provinces_
 ogr2ogr -f GeoJSON admin_0_boundary_lines_land.json ne_110m_admin_0_boundary_lines_land.shp
 
 topojson -o earth-topo.json \
-  admin_0_boundary_lines_land.json states_provinces_lines.json \
+  ../cp.json admin_0_boundary_lines_land.json states_provinces_lines.json \
   coastline_50m.json coastline_110m.json lakes_50m.json lakes_110m.json
 topojson -o earth-topo-mobile.json\
-  admin_0_boundary_lines_land.json states_provinces_lines.json \
+  ../cp.json admin_0_boundary_lines_land.json states_provinces_lines.json \
   coastline_110m.json coastline_tiny.json lakes_110m.json lakes_tiny.json
 cp earth-topo*.json ~/src/wind/public/data/
