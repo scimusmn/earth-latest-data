@@ -1,7 +1,7 @@
 cd /Users/exhibits/src/earth-latest-data/
 
 # Download and format yesterday's data...
-# Get yestday's date as string
+# Get yesterday's date as string
 PREVDAY=`date -v-1d +%F`
 # Remove dashes
 PREVDAYFORMATTED=${PREVDAY//[-._]/}
