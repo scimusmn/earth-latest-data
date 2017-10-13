@@ -9,7 +9,7 @@ PREVDAYFORMATTED=${PREVDAY//[-._]/}
 ./wind.py --date $PREVDAYFORMATTED
 
 # Download and format today's data...
-# (Passing no date default's to today)
+# (Passing no date defaults to today)
 ./wind.py
 
 cd /Users/exhibits/src/wind
