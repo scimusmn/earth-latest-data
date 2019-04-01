@@ -20,7 +20,7 @@ import datetime
 from subprocess import call
 import os
 import errno
-import urllib2
+import urllib.request as urllib2
 from time import strftime
 
 
@@ -43,12 +43,12 @@ def download_data(date):
                      .strftime('%Y-%m-%d'))
 
     url = 'http://nomads.ncep.noaa.gov/cgi-bin/filter_gfs_1p00.pl' + '?' + \
-        'file=gfs.t00z.pgrb2.1p00.f000&' + \
-        'lev_10_m_above_ground=on&' + \
-        'var_UGRD=on&var_VGRD=on&' + \
-        'leftlon=0&rightlon=360&toplat=90&bottomlat=-90&' + \
-        'dir=%2Fgfs.' + date + '00'
-    print url
+          'file=gfs.t00z.pgrb2.1p00.f000&' + \
+          'lev_10_m_above_ground=on&' + \
+          'var_UGRD=on&var_VGRD=on&' + \
+          'leftlon=0&rightlon=360&toplat=90&bottomlat=-90&' + \
+          'dir=%2Fgfs.' + date + '00'
+    print (url)
 
     file_name = iso_date_frag + '_gfs.t00z.pgrbf00.grib2'
     try:
@@ -62,15 +62,15 @@ def download_data(date):
             f.write(buffer)
         f.close()
         return f.name
-    except urllib2.HTTPError, e:
+    except (urllib2.HTTPError, e):
         print('HTTPError = ' + str(e.code))
         print
-        print 'Unknown internet connection problem.'
+        print ('Unknown internet connection problem.')
         print
-    except urllib2.URLError, e:
-        print 'URLError = ' + str(e.reason)
+    except (urllib2.URLError, e):
+        print ('URLError = ' + str(e.reason))
         print
-        print 'Your internet connection is probably down.'
+        print ('Your internet connection is probably down.')
         print
 
 
@@ -149,6 +149,6 @@ if __name__ == '__main__':
     if grib_file:
         json_file = grib_2_json(grib_file, date, arguments['--dest'])
     else:
-        print '''
+        print ('''
 You won't be able to get the latest wind data until the internet is reconnected
-'''
+''')
